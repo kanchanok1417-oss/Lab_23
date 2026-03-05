@@ -37,10 +37,14 @@ void importDataFromFile(string filename, vector<string> &names, vector<int> &sco
 }
 
 void getCommand(string &command, string &key){
-    cout << "Please input your command: \n";
-    cin >> command;
-    if(toUpperStr(command) == "EXIT") return;
-    getline(cin >> ws, key);
+    cout << "Please input your command:\n";
+    char format[] ="%s %[^\n]";
+    string str;
+    getline(cin, str);
+    char t[100], k[100];
+    sscanf(str.c_str(), format, t, k);
+    command = toUpperStr(t);
+    key = k;
 }
 
 void searchName(vector<string> &names, vector<int> &scores, vector<char> &grades, string key){
@@ -48,7 +52,7 @@ void searchName(vector<string> &names, vector<int> &scores, vector<char> &grades
         bool found = false;
     
     for(unsigned i = 0; i < names.size(); i++){
-        if(toUpperStr(names[i]).find(upKey) != string::npos){
+        if(toUpperStr(names[i]) == upKey){
             cout << "---------------------------------\n";   
             cout << names[i] << "'s score = " << scores[i] << "\n";
             cout << names[i] << "'s grade = " << grades[i] << "\n";
@@ -69,7 +73,7 @@ void searchGrade(vector<string> &names, vector<int> &scores, vector<char> &grade
     cout << "---------------------------------\n"; 
     for(unsigned i = 0; i < grades.size(); i++){
         string currentGrade(1, grades[i]);
-        if(currentGrade == key){
+        if(toupper(key[0]) == toupper(grades[i])){
             cout << names[i] << " (" << scores[i] << ")" << "\n";
             found = true;
         }
